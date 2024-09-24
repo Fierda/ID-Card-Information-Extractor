@@ -1,0 +1,4 @@
+fastapi
+paddleocr
+pdf2image
+collections-extended

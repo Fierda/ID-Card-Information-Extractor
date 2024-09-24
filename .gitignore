@@ -1,0 +1,10 @@
+*.py
+!app.py
+!ocr.py
+__pycache__/
+*.pyc
+.env
+*.log
+images/
+paddle_model/
+venv/
