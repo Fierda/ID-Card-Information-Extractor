@@ -8,3 +8,5 @@ __pycache__/
 images/
 paddle_model/
 venv/
+output.json
+.gitignore

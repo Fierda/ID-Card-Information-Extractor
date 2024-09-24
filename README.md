@@ -13,4 +13,4 @@ Tools to extract information from Indonesia ID cards and Tax Identification Numb
 3. Integrate with front-end or other service
 
 ## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
