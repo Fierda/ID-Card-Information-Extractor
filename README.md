@@ -1,5 +1,4 @@
 # Indonesia Information Card Extractor
-PaddleOCR Application
 
 ## Description
 Tools to extract information from Indonesia ID cards and Tax Identification Numbers using PaddleOCR.
