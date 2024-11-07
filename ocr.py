@@ -44,7 +44,6 @@ def extract_text_from_images(image_paths):
     all_words = []
 
     for image_index, image_path in enumerate(image_paths):
-        # Perform OCR on the image
         ocr_result = ocr.ocr(image_path, cls=True)
         
         # Extract and collect text from OCR result
@@ -87,7 +86,6 @@ def format_and_split(text):
     #text = re.sub(r'\bPROVIN([A-Z]+)', 'PROVINSI \1', text, flags=re.IGNORECASE)
     text = re.sub(r'\bSEUMURHIDUP\b', 'SEUMUR HIDUP', text, flags=re.IGNORECASE)
 
-    # Define patterns for known fields
     fields = [
         'Provinsi', 'Tempat/Tgl Lahir', 'Status Perkawinan', 'Kewarganegaraan',
         'KOTA', 'Gol\.Darah', 'Kel/Desa', 'Kecamatan', 'Agama', 'Pekerjaan', 
@@ -125,23 +123,20 @@ def correct_rt_rw(rt_rw_data):
     # Format RT/RW based on cleaned digits
     if len(digits) == 7:
         # Handle case with 7 digits (remove the middle digit as OCR error)
-        rt = digits[:3]  # First 3 digits
-        rw = digits[4:]  # Last 3 digits
+        rt = digits[:3]
+        rw = digits[4:]
         return f"{rt}/{rw}"
     elif len(digits) == 6:
         # Handle case with 6 digits
-        rt = digits[:3]  # First 3 digits
-        rw = digits[3:]  # Last 3 digits
+        rt = digits[:3]
+        rw = digits[3:]
         return f"{rt}/{rw}"
     else:
-        # Return as-is if it doesn't match expected patterns
         return rt_rw_data
 
 def extract_npwp(data):
-    # Define the regular expression pattern to detect NPWP format
     npwp_pattern = r'(NPWP)(\d{2}\.\d{3}\.\d{3}\.\d-\d{3}\.\d{3})'
 
-    # Loop through the data to find the NPWP pattern
     for value in data:
         match = re.search(npwp_pattern, value)
         if match:
@@ -205,7 +200,6 @@ def npwp_separator(data):
     return cleaned_data
 
 def split_address(address):
-    # Common patterns in Indonesian addresses
     patterns = [
         (r'\bJL\b', 'JL. '),
         (r'\bJALAN\b', 'JALAN '),
@@ -241,7 +235,7 @@ def split_address(address):
             continue
         
         if word in ['JL.', 'JALAN']:
-            # For 'JL.' or 'JALAN', keep the next word as is
+  
             new_words.append(word)
             if i + 1 < len(words):
                 new_words.append(words[i+1])
@@ -264,10 +258,10 @@ def split_address(address):
 def clean_address(parts):
     cleaned = ' '.join(parts)
     cleaned = re.sub(r'\s+', ' ', cleaned)  # Replace multiple spaces with a single space
-    return cleaned.strip()  # Remove leading/trailing spaces
+    return cleaned.strip() 
 
 def process_data(data):
-    # Define entries to remove
+
     entries_to_remove = [
         "KEMENTERIANKEUANGANREPUBLIKINDONESIA",
         'KEMENTERIAN KEUANGANREPUBLK INDONESIA', 
@@ -361,12 +355,10 @@ def find_index(data, *values):
     return None
 
 def extract_provinsi(data):
-    # Ensure that data is a list and not empty
     if not isinstance(data, list) or not data:
         return "N/A"
     
     try:
-        # Find the index of the element that starts with 'PROVINSI'
         prov_index = next(i for i, item in enumerate(data) if 'PROVINSI' in item or 'PROPINSI' in item)
         print("Index of 'PROVINSI':", prov_index)
         
@@ -394,7 +386,6 @@ def clean_ocr_output(output):
     return cleaned
 
 def extract_nik(data):
-    # Pattern to match NP4P or NPWP followed by at least 16 characters
     pattern = re.compile(r'(NP4P|NPWP)(\d{16}\d*)$')
     
     for i, item in enumerate(data):
@@ -466,20 +457,17 @@ def main(file_path, output_folder='images'):
     data = format_and_split(comma_separated_words)
     print(data)
     
-    # Define regular expression patterns to remove
     patterns = [
-        r'\bEPP\w*\b',  # Matches 'EPP' followed by any word characters (letters or numbers)
-        r'\bKPP\w*\b',  # Matches 'KPP' followed by any word characters (letters or numbers)
+        r'\bEPP\w*\b',
+        r'\bKPP\w*\b',
     ]
     
     # Compile the patterns into a single regex pattern
     regex_pattern = re.compile('|'.join(patterns), re.IGNORECASE)
 
     filtered_data = [item.strip() for item in data if not regex_pattern.search(item.strip())]
-  
     print("Filtered Data:", filtered_data)
     
-    # Detect the document type
     document_type = detect_document_type(filtered_data)
     
     if document_type == 'NPWP':

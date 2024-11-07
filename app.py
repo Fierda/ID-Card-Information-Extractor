@@ -7,20 +7,19 @@ from ocr import main as ocr_main
 
 app = FastAPI()
 
-# Enable CORS for your frontend application (e.g., React on localhost:3000)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # React frontend's URL
+    allow_origins=["http://localhost:3000"], 
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods (GET, POST, PUT, DELETE)
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["*"], 
+    allow_headers=["*"],
 )
 
 @app.post("/ocr/")
 async def upload_file(file: UploadFile = File(...)):
     try:
         output_folder = 'images'
-        os.makedirs(output_folder, exist_ok=True)  # Ensure the directory exists
+        os.makedirs(output_folder, exist_ok=True)
 
         temp_file_path = os.path.join(output_folder, file.filename)
         
@@ -37,7 +36,6 @@ async def upload_file(file: UploadFile = File(...)):
         return JSONResponse(content={"result": ocr_result})
 
     except Exception as e:
-        # Handle errors during the process
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
