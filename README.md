@@ -8,8 +8,7 @@ Tools to extract information from Indonesia ID cards and Tax Identification Numb
 2. pip install -r requirements.txt
 
 ## Usage
-1. RUN: uvicorn app:app --host 0.0.0.0 --port {PORT} --reload
-   *** Or use "python app.py" ***
+1. RUN: `uvicorn app:app --host 0.0.0.0 --port {PORT} --reload` | **OR** | `python app.py`
 2. Test using Postman on localhost/ocr/ with POST request 
 3. Integrate with front-end or other service
 
