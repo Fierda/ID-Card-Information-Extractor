@@ -577,7 +577,7 @@ def main(file_path, output_folder='images'):
             print("Warning: 'Kecamatan' not found in data.")
         
         try:
-            rt_rw_index = data.index('RT/RW') + 1
+            rt_rw_index = data.index(next(x for x in data if 'RT/RW' in x or 'RTRW' in x)) + 1
             rt_rw_data = data[rt_rw_index]
             formatted_rt_rw = correct_rt_rw(rt_rw_data)
         except ValueError:
@@ -589,7 +589,7 @@ def main(file_path, output_folder='images'):
             alamat_index = data.index('Alamat') + 1
             address_parts = []
             for item in data[alamat_index:rt_rw_index]:
-                if item == 'RT/RW':
+                if item in ['RT/RW', 'RTRW']:
                     break
                 address_parts.append(item)
             full_address = ' '.join(address_parts).strip()

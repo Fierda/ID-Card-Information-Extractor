@@ -1,4 +1,7 @@
 fastapi
+paddlepaddle
 paddleocr
 pdf2image
 collections-extended
+python-multipart
+uvicorn
