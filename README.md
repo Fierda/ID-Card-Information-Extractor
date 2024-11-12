@@ -1,6 +1,8 @@
 # Indonesia Information Card Extractor
+A Tools to extract information from Indonesia ID cards and Tax Identification Numbers using PaddleOCR.
 
-Tools to extract information from Indonesia ID cards and Tax Identification Numbers using PaddleOCR.
+## Description
+This tool uses PaddleOCR to extract relevant information from Indonesian ID cards and Tax Identification Numbers, making it useful for identity verification and data processing.
 
 ## Installation
 1. Install poppler
